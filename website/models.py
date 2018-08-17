@@ -10,7 +10,8 @@ from website.random_primary import RandomPrimaryIdModel
 
 def image_path(instance, filename, size):
     print(instance.id)
-    return '{0}/{1}{2}.jpg'.format(instance.gl.path, instance.id, size)
+    return os.path.abspath('{0}/{1}{2}.jpg'.format(instance.gl.path,
+        instance.id, size))
 
 def image_large_path(instance, filename):
     return image_path(instance, filename, '-large')
