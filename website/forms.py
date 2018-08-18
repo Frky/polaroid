@@ -13,10 +13,10 @@ from functools import reduce
 def resize(image, max_len):
     w, h = image.size
     if w < h:
-        nh = max_len
+        nh = min(max_len, h)
         nw = w * (nh / float(h)) 
     else:
-        nw = max_len
+        nw = min(max_len, w)
         nh = h * (nw / float(w)) 
     medium = image.resize((int(nw), int(nh)), IMG.ANTIALIAS)
     buffer = BytesIO()
