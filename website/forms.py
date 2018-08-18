@@ -1,4 +1,5 @@
 import os
+import io
 from io import StringIO, BytesIO
 from PIL import Image as IMG
 
@@ -19,7 +20,7 @@ def resize(image, max_len):
         nh = h * (nw / float(w)) 
     medium = image.resize((int(nw), int(nh)), IMG.ANTIALIAS)
     buffer = BytesIO()
-    medium.save(buffer, 'JPEG')
+    medium.save(buffer, 'JPEG', quality=100)
     return ContentFile(buffer.getvalue())
 
 
@@ -51,8 +52,17 @@ class UploadForm(forms.ModelForm):
         try:
             instance.save()
 
-            image = ContentFile(reduce(lambda a, b: a+b, img.chunks(), b""))
-            instance.path.save('__', content=image) # , content=resize(image, 2000))
+            raw_image = ContentFile(reduce(lambda a, b: a+b, img.chunks(), b""))
+            image = IMG.open(raw_image)
+            if image.format != "JPEG":
+                if image.mode != "RGB":
+                    image = image.convert("RGB")
+                    print("WARN: Could be ugly")
+                image_bytes = io.BytesIO()
+                image.save(image_bytes, format='JPEG', quality=100)
+                raw_image = ContentFile(image_bytes.getvalue())
+
+            instance.path.save('__', content=raw_image) # , content=resize(image, 2000))
             instance.path.seek(0)
             image = IMG.open(instance.path.file)
             instance.large.save('__', content=resize(image, 2000))
