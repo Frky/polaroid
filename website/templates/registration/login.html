@@ -19,4 +19,15 @@
             <input type="submit" value="login" />
         </form>
     </div>
+
+    {% if form.errors %}
+    <script>
+        new Noty({
+            type: 'error',
+            layout: 'topRight',
+            text: 'Wrong username or password',
+            timeout: 4000
+        }).show();
+    </script>
+    {% endif %}
 {% endblock %}
