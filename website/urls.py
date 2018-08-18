@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
-from django.contrib.auth import login, logout
+from django.contrib.auth.views import LoginView, LogoutView
 
 from website import views
 
@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^name/set/(?P<gid>[-A-Za-z0-9_]+)$', views.set_name_gallery, name="set_name"),
 
     url(r'^register$',  views.register, name="register"),
-    url(r'^login$',  login, name="login"),
-    url(r'^logout$', logout, {'next_page': "index"}, name="logout"),
+    url(r'^login$',  LoginView.as_view(), name="login"),
+    url(r'^logout$', LogoutView.as_view(), name="logout"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
