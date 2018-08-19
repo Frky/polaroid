@@ -1,4 +1,5 @@
 from PIL import Image as IMG
+import os
 
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib.auth import authenticate, login
@@ -30,9 +31,10 @@ def cover_gallery(request, gid):
     if cover is None:
         cover = gal.image_set.first()
     if cover is None:
-        return HttpResponse(gid + ";" + "placeholder")
+        return HttpResponse(gid + ";" + "placeholder" + ";svg")
     else:
-        return HttpResponse(gid + ";" + cover.id)
+        return HttpResponse(gid + ";" + cover.id + ";" +
+                os.path.splitext(str(cover.path))[1])
 
 def name_gallery(request, gid):
     gal = get_object_or_404(Gallery, id=gid)
@@ -75,7 +77,10 @@ def gallery(request, gid):
     ctxt = dict()
     gal = get_object_or_404(Gallery, id=gid)
     ctxt["gal"] = gal 
-    ctxt["imgs"] = gal.image_set.all()
+    imgs = []
+    for img in gal.image_set.all():
+        imgs.append({"id": img.id, "ext": os.path.splitext(str(img.path))[1]})
+    ctxt["imgs"] = imgs
     ctxt["form"] = UploadForm(initial={"gallery": gid})
     return render(request, tpl, ctxt)
 

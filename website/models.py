@@ -10,7 +10,8 @@ from website.random_primary import RandomPrimaryIdModel
 
 def image_path(instance, filename, size):
     print(instance.id)
-    return '{0}/{1}{2}.jpg'.format(instance.gl.path, instance.id, size)
+    ext = os.path.splitext(filename)[1]
+    return '{0}/{1}{2}{3}'.format(instance.gl.path, instance.id, size, ext)
 
 def image_large_path(instance, filename):
     return image_path(instance, filename, '-large')
@@ -55,13 +56,13 @@ class Image(RandomPrimaryIdModel):
         for img in [self.path, self.thumb]:
             im = PILImage.open(img)
             cropped = im.copy()
-            im.close()
             h, w = cropped.height, cropped.width
             if h < w:
                 nh = w / r
                 p = int((h - nh) / 2)
                 cropped = cropped.crop((0, p, w, h - p))
-            cropped.save(str(img), "JPEG")
+            cropped.save(str(img), im.format)
+            im.close()
 
     def delete(self, *args, **kwargs):
         if self.path and os.path.isfile(self.path.path):

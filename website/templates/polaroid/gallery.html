@@ -30,8 +30,8 @@
 <div id="gallery" style="visibility: hidden" class="rm-container">
     {% if imgs %}
     {% for img in imgs %}
-        <a href="/img/{{ gal.id }}/{{ img.id }}.jpg" class="img">
-            <img src="/img/{{ gal.id }}/{{ img.id }}-small.jpg" alt="void" data-id="{{ img.id }}" />
+    <a href="/img/{{ gal.id }}/{{ img.id }}{{ img.ext }}" class="img">
+        <img src="/img/{{ gal.id }}/{{ img.id }}-small{{ img.ext }}" alt="void" data-id="{{ img.id }}" />
         </a>
     {% endfor %}
     <div id="padding"></div>
@@ -53,7 +53,7 @@
   <div class="carousel-inner">
     {% for img in imgs %}
         <div class="carousel-item" data-img="{{img.id}}">
-          <img class="d-block w-100" src="" data-src="/img/{{ gal.id }}/{{ img.id }}-large.jpg" alt="void">
+            <img class="d-block w-100" src="" data-src="/img/{{ gal.id }}/{{ img.id }}-large{{ img.ext }}" alt="void">
         </div>
     {% endfor %}
   </div>
