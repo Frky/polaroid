@@ -6,6 +6,7 @@ var enter_carousel = function(el) {
     $(".carousel-item[data-img=" + $(el).attr("data-id") + "]", "#gallery-carousel").addClass("active");
     $("#gallery-carousel").removeClass("hidden");
     $("#gallery").addClass("hidden");
+    $("header").addClass("hidden");
     $("body").addClass("carousel");
     noty_carousel = new Noty({
         type: "info",
@@ -18,6 +19,7 @@ var enter_carousel = function(el) {
 var exit_carousel = function() {
     $("#gallery-carousel").addClass("hidden");
     $("#gallery").removeClass("hidden");
+    $("header").removeClass("hidden");
     $("body").removeClass("carousel");
     if (!noty_carousel.closed)
         noty_carousel.close()
