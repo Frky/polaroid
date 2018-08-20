@@ -35,6 +35,15 @@ var activate_rm = function() {
 
 $(document).ready(function() {
     $("#remove").click(function() {
+        if (!$("#gallery").hasClass("removing")) {
+            $("#pin").addClass("hidden");
+            $("#upload").addClass("hidden");
+            $("#crop").addClass("hidden");
+        } else {
+            $("#pin").removeClass("hidden");
+            $("#upload").removeClass("hidden");
+            $("#crop").removeClass("hidden");
+        }
         $("#remove").toggleClass("removing");
         $("#gallery").toggleClass("removing");
         $("#gallery").toggleClass("action-in-progress");

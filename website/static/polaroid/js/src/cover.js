@@ -32,6 +32,15 @@ var activate_pin = function() {
 
 $(document).ready(function() {
     $("#pin").click(function() {
+        if (!$("#gallery").hasClass("pinning")) {
+            $("#remove").addClass("hidden");
+            $("#crop").addClass("hidden");
+            $("#upload").addClass("hidden");
+        } else {
+            $("#remove").removeClass("hidden");
+            $("#crop").removeClass("hidden");
+            $("#upload").removeClass("hidden");
+        }
         $("#pin").toggleClass("pinning");
         $("#gallery").toggleClass("pinning");
         $("#gallery").toggleClass("action-in-progress");
