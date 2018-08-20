@@ -71,6 +71,7 @@
 {% endblock %}
 
 {% block extra_script %}
+{% if gal.owner == user %}
     var nanobar = new Nanobar({
         bg: "#FFFFFF",
     });
@@ -100,4 +101,5 @@
             timeout: 6000
         }).show();
     });
-    {% endblock %}
+{% endif %}
+{% endblock %}
