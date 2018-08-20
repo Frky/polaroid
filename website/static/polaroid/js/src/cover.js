@@ -9,10 +9,11 @@ var get_cover = function(el) {
         var data = xhr.responseText.split(";");
         var gid = data[0];
         var mid = data[1];
+        var ext = data[2];
         if (mid != "placeholder") {
             $("img", "." + gid).bind("error", function (evt) {
                 $(this).attr("src", "/static/polaroid/img/placeholder.svg" );
-            }).attr("src", "img/" + gid + "/" + mid + "-small.jpg");
+            }).attr("src", "img/" + gid + "/" + mid + "-small" + ext);
         } else {
             $("img", "." + gid).attr("src", "/static/polaroid/img/placeholder.svg" );
         }
