@@ -7,12 +7,20 @@ var enter_carousel = function(el) {
     $("#gallery-carousel").removeClass("hidden");
     $("#gallery").addClass("hidden");
     $("body").addClass("carousel");
+    noty_carousel = new Noty({
+        type: "info",
+        layout: "top",
+        text: "<center>To close the carousel, click the photo or press Esc.</center>",
+        closeWith: ["click", "button"]
+    }).show();
 };
 
 var exit_carousel = function() {
     $("#gallery-carousel").addClass("hidden");
     $("#gallery").removeClass("hidden");
     $("body").removeClass("carousel");
+    if (!noty_carousel.closed)
+        noty_carousel.close()
 }
 
 $(document).ready(function() {
@@ -28,5 +36,9 @@ $(document).ready(function() {
         } else {
             enter_carousel(this);
         }
+    });
+    $(document).keyup(function(e){
+        if(e.keyCode === 27 && $("#gallery").hasClass("hidden"))
+            exit_carousel()
     });
 });
