@@ -26,4 +26,27 @@
         </form>
     <div>
 
+    {% if reg_form.errors %}
+    <script>
+        {% for field in reg_form %}
+            {% for error in field.errors %}
+                new Noty({
+                    type: 'error',
+                    layout: 'topRight',
+                    text: '{{ error|escape }}',
+                    timeout: 4000
+                }).show();
+            {% endfor %}
+        {% endfor %}
+        {% for error in reg_form.non_field_errors %}
+            new Noty({
+                type: 'error',
+                layout: 'topRight',
+                text: '{{ error|escape }}',
+                timeout: 4000
+            }).show();
+        {% endfor %}
+    </script>
+    {% endif %}
+
 {% endblock %}
