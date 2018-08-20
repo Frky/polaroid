@@ -21,23 +21,30 @@ var remove = function(el) {
 }
 
 var activate_rm = function() {
-    console.log("AYO");
-    $(".removing a").click(function(e) {
-        console.log("YOLO ?");
-        if (!$("#gallery").hasClass("action-in-progress")) {
-            return;
-        }
-        console.log("YOLO");
+    $(".action:not(#remove)").css({"pointer-events": "none", "cursor": "default", "color": "lightgray"});
+    $("#gallery").addClass("removing");
+    $("#remove").addClass("removing");
+    $("#gallery").addClass("action-in-progress");
+    $(".removing a").on('click.action', function(e) {
         e.preventDefault();
         remove(this);
     });
 }
 
+var deactivate_rm = function() {
+    $(".action:not(#remove)").removeAttr("style");
+    $(".removing a").off('click.action');
+    $("#gallery").removeClass("removing");
+    $("#remove").removeClass("removing");
+    $("#gallery").removeClass("action-in-progress");
+}
+
 $(document).ready(function() {
     $("#remove").click(function() {
-        $("#remove").toggleClass("removing");
-        $("#gallery").toggleClass("removing");
-        $("#gallery").toggleClass("action-in-progress");
-        activate_rm();
+        if (!$("#gallery").hasClass("removing")) {
+            activate_rm();
+        } else {
+            deactivate_rm();
+        }
     });
 });

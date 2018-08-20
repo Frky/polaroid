@@ -21,20 +21,30 @@ var get_cover = function(el) {
 }
 
 var activate_pin = function() {
-    $(".pinning a").click(function(e) {
-        if (!$("#gallery").hasClass("action-in-progress")) {
-            return;
-        }
+    $(".action:not(#pin)").css({"pointer-events": "none", "cursor": "default", "color": "lightgray"});
+    $("#gallery").addClass("pinning");
+    $("#pin").addClass("pinning");
+    $("#gallery").addClass("action-in-progress");
+    $(".pinning a").on('click.action', function(e) {
         e.preventDefault();
         set_cover(this);
     });
 }
 
+var deactivate_pin = function() {
+    $(".action:not(#pin)").removeAttr("style");
+    $(".pinning a").off('click.action');
+    $("#gallery").removeClass("pinning");
+    $("#pin").removeClass("pinning");
+    $("#gallery").removeClass("action-in-progress");
+}
+
 $(document).ready(function() {
     $("#pin").click(function() {
-        $("#pin").toggleClass("pinning");
-        $("#gallery").toggleClass("pinning");
-        $("#gallery").toggleClass("action-in-progress");
-        activate_pin();
+        if (!$("#gallery").hasClass("pinning")) {
+            activate_pin();
+        } else {
+            deactivate_pin();
+        }
     });
 });
