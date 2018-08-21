@@ -27,15 +27,6 @@ var activate_crop = function() {
 
 $(document).ready(function() {
     $("#crop").click(function() {
-        if (!$("#gallery").hasClass("crop")) {
-            $("#remove").addClass("hidden");
-            $("#pin").addClass("hidden");
-            $("#upload").addClass("hidden");
-        } else {
-            $("#remove").removeClass("hidden");
-            $("#pin").removeClass("hidden");
-            $("#upload").removeClass("hidden");
-        }
         $("#crop").toggleClass("cropping");
         $("#gallery").toggleClass("cropping");
         $("#gallery").toggleClass("action-in-progress");
