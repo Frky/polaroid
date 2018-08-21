@@ -16,20 +16,30 @@ var crop = function(el) {
 }
 
 var activate_crop = function() {
-    $(".cropping a").click(function(e) {
-        if (!$("#gallery").hasClass("action-in-progress")) {
-            return;
-        }
+    $(".action:not(#crop)").css({"pointer-events": "none", "cursor": "default", "color": "lightgray"});
+    $("#gallery").addClass("cropping");
+    $("#crop").addClass("cropping");
+    $("#gallery").addClass("action-in-progress");
+    $(".cropping a").on('click.action', function(e) {
         e.preventDefault();
         crop(this);
     });
 }
 
+var deactivate_crop = function() {
+    $(".action:not(#crop)").removeAttr("style");
+    $(".cropping a").off('click.action');
+    $("#gallery").removeClass("cropping");
+    $("#crop").removeClass("cropping");
+    $("#gallery").removeClass("action-in-progress");
+}
+
 $(document).ready(function() {
     $("#crop").click(function() {
-        $("#crop").toggleClass("cropping");
-        $("#gallery").toggleClass("cropping");
-        $("#gallery").toggleClass("action-in-progress");
-        activate_crop();
+        if (!$("#gallery").hasClass("cropping")) {
+            activate_crop();
+        } else {
+            deactivate_crop();
+        }
     });
 });

@@ -16,10 +16,10 @@
 
 {% block hdr-right %}
     {% if gal.owner == user %}
-        <a href="#" id="upload" class="upload-btn"><span class="oi oi-data-transfer-upload"></span></a>
-        <a href="#" id="crop"><span class="oi oi-crop"></span></a>
-        <a href="#" id="pin"><span class="oi oi-pin"></span></a>
-        <a href="#" id="remove"><span class="oi oi-trash"></span></a>
+        <a href="#" id="upload" class="upload-btn action"><span class="oi oi-data-transfer-upload"></span></a>
+        <a href="#" id="crop" class="action"><span class="oi oi-crop"></span></a>
+        <a href="#" id="pin" class="action"><span class="oi oi-pin"></span></a>
+        <a href="#" id="remove" class="action"><span class="oi oi-trash"></span></a>
     {% endif %}
         <a href="#" id="like"><span class="oi oi-heart"></span></a>
 {% endblock %}
