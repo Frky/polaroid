@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 from website.random_primary import RandomPrimaryIdModel
 
 def image_path(instance, filename, size):
-    print(instance.id)
     ext = os.path.splitext(filename)[1]
     return '{0}/{1}{2}{3}'.format(instance.gl.path, instance.id, size, ext)
 

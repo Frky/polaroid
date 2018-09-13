@@ -1,27 +1,14 @@
 import os
 import io
-from io import StringIO, BytesIO
+from io import BytesIO
 from PIL import Image as IMG
 
 from django import forms
 from django.core.files.base import ContentFile, BytesIO
 
 from website.models import Gallery, Image
+from website.img_utils import resize, rotate
 from functools import reduce
-
-
-def resize(image, max_len):
-    w, h = image.size
-    if w < h:
-        nh = min(max_len, h)
-        nw = w * (nh / float(h)) 
-    else:
-        nw = min(max_len, w)
-        nh = h * (nw / float(w)) 
-    medium = image.resize((int(nw), int(nh)), IMG.ANTIALIAS)
-    buffer = BytesIO()
-    medium.save(buffer, image.format, quality=100)
-    return ContentFile(buffer.getvalue())
 
 
 class UploadForm(forms.ModelForm):
@@ -44,6 +31,7 @@ class UploadForm(forms.ModelForm):
             return valid
 
     def save(self, img, owner):
+
         supported_fmt = ["JPEG", "PNG"]
         gal = self.cleaned_data.get("gl")
         instance = Image(
@@ -52,7 +40,6 @@ class UploadForm(forms.ModelForm):
                     )
         try:
             instance.save()
-
             raw_image = ContentFile(reduce(lambda a, b: a+b, img.chunks(), b""))
             image = IMG.open(raw_image)
             if image.format not in supported_fmt:
@@ -63,8 +50,8 @@ class UploadForm(forms.ModelForm):
                 image.save(image_bytes, format=image.format, quality=100)
                 raw_image = ContentFile(image_bytes.getvalue())
             image.close()
-
-            instance.path.save('__', content=raw_image) # , content=resize(image, 2000))
+            raw_image = rotate(raw_image, image.format)
+            instance.path.save('__', content=raw_image)
             instance.path.seek(0)
             image = IMG.open(instance.path.file)
             instance.large.save('__', content=resize(image, 2000))

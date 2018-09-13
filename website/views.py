@@ -111,7 +111,6 @@ def upload(request):
     try:
         if form.is_valid(request.user):
             form.save(request.FILES["path"], request.user)
-            print(request.FILES["path"])
             return HttpResponse("OK")
     except Exception as e:
         return HttpResponse(status=415)
