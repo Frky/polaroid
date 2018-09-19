@@ -1,6 +1,6 @@
 var download = function(el) {
     var dl = $("<a download>").attr("href", $(el).attr("href"))
-        .attr("download", $(el).attr("href").substr(5) + ".jpg")
+        .attr("download", $(el).attr("href").substr(5).replace(".jpg", "") + ".jpg")
         .insertBefore(el);
     dl[0].click();
     dl.remove();
