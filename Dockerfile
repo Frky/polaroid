@@ -1,7 +1,7 @@
 FROM python:3.5.2
 
 RUN apt-get update
-RUN apt-get -y install rubygems ruby-2.3
+RUN apt-get -y install rubygems ruby2.3
 RUN gem install --no-rdoc --no-ri sass -v 3.4.22
 RUN gem install --no-rdoc --no-ri compass
 
